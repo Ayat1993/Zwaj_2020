@@ -13,6 +13,10 @@
             "args": [],
             "cwd": "${workspaceFolder}/ZwajAPI",
             "stopAtEntry": false,
+            "launchBrowser": {
+                "enabled": false
+            } , 
+
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
