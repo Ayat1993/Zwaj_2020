@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { forEach } from '@angular/router/src/utils/collection';
 import { AuthService } from '../_services/auth.service';
 
 @Component({
@@ -21,7 +22,11 @@ export class RegisterComponent implements OnInit {
   {
     this.authService.register(this.model).subscribe(
       ()=>{console.log("تم الاشتراك بنجاح");} ,
-      error=>{console.log(error);}
+      error=>{
+        
+        console.log(error)
+        console.log('خطا')
+      ;}
     )
   }
   cancel() {

@@ -42,6 +42,8 @@ namespace ZwajAPI.Controllers
         [HttpPost("login")]
          public async Task<IActionResult> Login(UserForLoginDto userForLoginDto )
          {
+             
+            //throw new Exception("Api Sys nooo") ;
              var userFromRep = await _repo.Login(userForLoginDto.username.ToLower() , userForLoginDto.password) ; 
              if(userFromRep==null) return Unauthorized()  ; 
               var claims = new [] {
@@ -62,6 +64,20 @@ namespace ZwajAPI.Controllers
                 var tokenHandler  =  new JwtSecurityTokenHandler();
                 var token = tokenHandler.CreateToken(tokenDescripror) ;
                 return Ok(new {token=tokenHandler.WriteToken(token)}) ;
+                 
+            
+             
+                //return StatusCode(500,"API Is very tired") ; 
+
+                
+             
+            
+            
+             
+             
+                
+             
+            
 
          }
 
