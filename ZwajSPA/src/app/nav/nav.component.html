@@ -1,9 +1,9 @@
-<nav class="rtl navbar navbar-expand-md navbar-dark bg-dark">
-  <a style="margin-top:-10px;color:pink;
+<nav class="rtl navbar navbar-expand-md navbar-dark bg-primary">
+  <a style="margin-top:-10px;margin-left:10px; color:pink;
 font-family:ToyorAljanah-Regular;font-size:2.25rem;font-weight:bolder" class="navbar-brand"
     href="#"><i class="fa fa-heart" aria-hidden="true"></i>زواج<i class="fa fa-heart" aria-hidden="true"></i></a>
 
-  <ul style="letter-spacing:1px;font-weight:bold;font-family:'JF-Flat-Regular';font-size:1.2rem" class="navbar-nav mr-auto">
+  <ul *ngIf="loggedIn()" style="letter-spacing:1px;font-weight:bold;font-family:'JF-Flat-Regular';font-size:1.2rem" class="navbar-nav mr-auto">
     <li class="nav-item">
       <a class="nav-link" href="#">الرئيسية </a>
     </li>
@@ -16,22 +16,22 @@ font-family:ToyorAljanah-Regular;font-size:2.25rem;font-weight:bolder" class="na
     <li class="nav-item">
       <a class="nav-link" href="#">دردشة</a>
     </li>
-    <li class="nav-item">
-      <a *ngIf="loggedIn()"  class="nav-link"(click)="loggedOut()">خروج</a>
-    </li>
+
   </ul>
-  <div class="dropdown">
-    <a *ngIf="loggedIn()" class="dropdown-toggle text-light nav-link" style="letter-spacing:1px;font-weight:bold;font-family:'JF-Flat-Regular';font-size:1.2rem">
+  <div *ngIf="loggedIn()" dropdown class="dropdown">
+    <a  dropdownToggle class="dropdown-toggle text-light nav-link" style="letter-spacing:1px;font-weight:bold;font-family:'JF-Flat-Regular';font-size:1.2rem">
+    
       مرحبا بك 
+      {{authServices.decodedToken?.unique_name |titlecase}}
 
     </a>
-    <div class="dropdown-menu">
+    <div *dropdownMenu class="dropdown-menu mt-3 mnav-link">
       <a class="dropdown-item">
         الملف الشخصي<i class="fa fa-user-o" ></i>
       </a>
 
       <div class="dropdoen-divider"></div>
-      <a class="dropdown-item" href="#">
+      <a class="dropdown-item" (click)="loggedOut()">
         <i class="fa fa-sign-out" ></i>
         تسجيل الخروج
       </a>
