@@ -20,6 +20,8 @@ confirm(message: string, okCallback:()=>any)
 
 success(message: string) {
   alertify.success(message);
+ 
+  
 }
 
 error(message: string) {

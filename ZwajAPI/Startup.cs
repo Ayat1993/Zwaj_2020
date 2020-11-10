@@ -72,7 +72,7 @@ namespace ZwajAPI
                 app.UseDeveloperExceptionPage();
             }
             else
-            {
+            {   // Production mode 
                 app.UseExceptionHandler(BuilderExtensions =>
                  {
 
@@ -82,6 +82,7 @@ namespace ZwajAPI
                          var error = context.Features.Get<IExceptionHandlerFeature>() ; 
                          if (error !=null)
                          {
+                             //نص الرسالة في response header 
                              context.Response.AddApplicationError(error.Error.Message) ; 
                              await context.Response.WriteAsync(error.Error.Message); 
                          }
