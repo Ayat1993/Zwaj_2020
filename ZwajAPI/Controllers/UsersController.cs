@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -37,5 +39,22 @@ namespace ZwajAPI.Controllers
             return Ok(userToReturn);
 
         }
+        [HttpPut("{id}")]
+         public async Task<IActionResult> UpdateUser(int id,UserUpdateDto userUpdateDto)
+        {
+            if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
+                 return Unauthorized() ;
+            }
+            
+            var userForRepo = await _repo.GetUser(id);
+
+             _mapper.Map(userUpdateDto,userForRepo) ;
+             if(await _repo.SaveAll()) {
+                 return NoContent();
+             }
+            throw new Exception($"حدثت مشكلة في تعديل بيانات المشترك {id}")  ;
+
+        }
+
     }
 }

@@ -8,6 +8,8 @@ import { appRoutes } from './routes';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { HttpClientModule } from "@angular/common/http";
+import { NgxGalleryModule } from 'ngx-gallery';
+
 
 
 //////////Component**********************Component****************//////////Component
@@ -21,7 +23,9 @@ import { MessagesComponent } from './messages/messages.component';
 import { MemberListComponent } from './members/member-list/member-list.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
-import { NgxGalleryModule } from 'ngx-gallery';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+
+
 
 
 
@@ -34,12 +38,17 @@ import { UserService } from './_services/user.service';
 
 
 
-
-
 //Guard
 import { AuthGuard } from './_guards/auth.guard';
+import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
+
+
+
+
+//resolver*****************************resolver********************************resolver************
 import { MemberDetailResolver } from './_resolvers/member-detail-resolver';
 import { MemberListResolver } from './_resolvers/member-list-resolver';
+import { MemberEditResolver } from './_resolvers/member-edit-resolver';
 
 
 
@@ -58,7 +67,8 @@ export function tokenGetter() {
     ListsComponent,
     MessagesComponent,
     MemberCardComponent,
-    MemberDetailComponent
+    MemberDetailComponent,
+    MemberEditComponent
    ],
   imports: [
     BrowserModule ,
@@ -85,7 +95,10 @@ export function tokenGetter() {
     AuthGuard , 
     UserService ,
     MemberDetailResolver,
-    MemberListResolver
+    MemberListResolver , 
+    MemberEditResolver,
+    PreventUnsavedChangesGuard
+    
   ],
   bootstrap: [AppComponent]
 })
