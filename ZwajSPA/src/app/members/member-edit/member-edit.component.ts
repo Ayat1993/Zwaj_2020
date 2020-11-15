@@ -2,6 +2,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Photo } from 'src/app/_model/photo';
 import { User } from 'src/app/_model/user';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
@@ -24,6 +25,7 @@ export class MemberEditComponent implements OnInit {
 
   constructor(private route : ActivatedRoute ,private alertify : AlertifyService , private userService:UserService , private authService :AuthService) { }
   user:User;
+  photoUrl:string ; 
 
   ngOnInit(){
 
@@ -31,6 +33,9 @@ export class MemberEditComponent implements OnInit {
       {this.user=data['user']}
 
     );
+    this.authService.currentPhotoUrl.subscribe(photo=>
+      this.photoUrl=photo
+   );
 
   }
   updateUser(){
@@ -43,8 +48,15 @@ export class MemberEditComponent implements OnInit {
       error=> {this.alertify.error(error);}
     ) ;
 
+  
+
+  }
+  updateMainPhoto(photUrl:string)
+  {
+    this.user.photoURL=photUrl ; 
+
     
-    
+
 
 
   }
