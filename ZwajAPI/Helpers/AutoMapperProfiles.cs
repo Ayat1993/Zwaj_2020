@@ -23,6 +23,8 @@ namespace ZwajAPI.Helpers
             CreateMap<UserUpdateDto,User>() ; 
             CreateMap<Photo,PhotoFromReturnDto>() ;
             CreateMap<PhotoForCreateDto,Photo>() ;
+            
+            CreateMap<UserForRegisterDto,User>() ;
 
 
 

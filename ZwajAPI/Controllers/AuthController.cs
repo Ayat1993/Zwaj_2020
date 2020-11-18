@@ -36,9 +36,12 @@ namespace ZwajAPI.Controllers
             userForRegisterDto.UserName = userForRegisterDto.UserName.ToLower();
             if (await _repo.UserExists(userForRegisterDto.UserName))
                 return BadRequest(" هذا المستخدم مستخدم من قبل ");
-            var userToCreate = new User { UserName = userForRegisterDto.UserName };
+            var userToCreate =  Mapper.Map<User>(userForRegisterDto)  ;
+            
             var UserCreate = await _repo.Register(userToCreate, userForRegisterDto.Password);
-            return StatusCode(201);
+            var userToReturn = _mapper.Map<UserForDetailsDto>(UserCreate) ;
+           //  return Ok(userToReturn) ;
+            return CreatedAtRoute("GetUser", new {controller="Users",id=UserCreate.Id},userToReturn);
 
         }
 
@@ -68,11 +71,11 @@ namespace ZwajAPI.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescripror);
             var user= _mapper.Map<UserForListDto>(userFromRep);
-            return Ok(new 
-            { 
-                token = tokenHandler.WriteToken(token),user
+            return Ok(new{ token = tokenHandler.WriteToken(token),user} );
+             
+               
 
-             });
+            
 
 
 

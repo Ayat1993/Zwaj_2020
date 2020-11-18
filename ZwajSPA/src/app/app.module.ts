@@ -2,8 +2,8 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {FormsModule  } from "@angular/forms";
-import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
+import {FormsModule, ReactiveFormsModule  } from "@angular/forms";
+import { BsDatepickerModule, BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 import { appRoutes } from './routes';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -91,7 +91,9 @@ export function tokenGetter() {
     }),
     TabsModule.forRoot() , 
     NgxGalleryModule,
-    FileUploadModule
+    FileUploadModule,
+    ReactiveFormsModule ,
+    BsDatepickerModule.forRoot()
 
 
   ],

@@ -42,6 +42,7 @@ namespace ZwajAPI
                 option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore ;
 
             });
+            
              services.AddCors();
              services.AddAutoMapper();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
@@ -98,7 +99,7 @@ namespace ZwajAPI
 
             }
            // trialData.TrialUsers() ; 
-            app.UseCors(x=> x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(x=> x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
             app.UseAuthentication() ; 
             app.UseMvc();
 

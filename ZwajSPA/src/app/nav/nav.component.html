@@ -41,7 +41,7 @@ font-family:ToyorAljanah-Regular;font-size:2.25rem;font-weight:bolder" class="na
    
   </div>
   <span *ngIf="loggedIn()">
-    <img src="{{photoUrl}}" >
+    <img src="{{photoUrl || 'assets/User.png'}}" >
   </span>
   
   <form *ngIf="!loggedIn()" (ngSubmit)="login()"  #loginForm="ngForm"  class="form-inline my-2 my-lg-0">

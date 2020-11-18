@@ -83,10 +83,12 @@ namespace ZwajAPI.Controllers
             var photo = _mapper.Map<Photo>(photoForCreateDto);
             if (!userForRepo.Photos.Any(p => p.IsMain))
                 photo.IsMain = true;
+                //اضافة الصورة للمستخدم وبالتالي اضافتها للداتا بيس  يتم 
             userForRepo.Photos.Add(photo);
             if (await _repo.SaveAll())
             {
                 var photoToReturn = _mapper.Map<PhotoFromReturnDto>(photo);
+                //جلب للصورة 
                 return CreatedAtRoute("GetPhoto", new { id = photo.Id }, photoToReturn);
 
             }
@@ -120,6 +122,7 @@ namespace ZwajAPI.Controllers
             var CurrentMainPhoto = await _repo.GetMainPhotoForUser(userId);
             CurrentMainPhoto.IsMain = false;
             DesiredMainPhoto.IsMain = true;
+            
             if (await _repo.SaveAll())
             {
                 return NoContent();

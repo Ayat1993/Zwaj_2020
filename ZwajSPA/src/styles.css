@@ -4,6 +4,7 @@
 @import "~font-awesome/css/font-awesome.min.css";
 @import "~alertifyjs/build/css/alertify.min.css" ;
 @import "~alertifyjs/build/css/themes/bootstrap.min.css" ;
+@import "~ngx-bootstrap/datepicker/bs-datepicker.css" ;
 @import url("assets/myStyles.css") ;
 
 @font-face {font-family: "18410-ah-naskh-hadith"; src: url("./assets/fonts/18410-ah-naskh-hadith.ttf");}
