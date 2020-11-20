@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ZwajAPI.Data;
 using ZwajAPI.Dtos;
+using ZwajAPI.Helpers;
 
 namespace ZwajAPI.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(LogUserActivity))]
     public class UsersController : ControllerBase
     {
         private readonly IZwajRepository _repo;

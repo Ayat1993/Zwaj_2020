@@ -9,7 +9,7 @@ using ZwajAPI.Data;
 
 namespace ZwajAPI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
@@ -23,6 +23,15 @@ namespace ZwajAPI.Controllers
 
 
         }
+        [HttpGet]
+         public async Task<IActionResult> GetCountries()
+        {
+            return Ok() ;
+        }  // GET api/values
+        
+        
+        
+
         // GET api/values
         [AllowAnonymous]
         [HttpGet]

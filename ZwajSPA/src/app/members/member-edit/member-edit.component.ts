@@ -14,6 +14,10 @@ import { UserService } from 'src/app/_services/user.service';
   styleUrls: ['./member-edit.component.css']
 })
 export class MemberEditComponent implements OnInit {
+  created:string ;
+   age:string ; 
+   option={weekday:'long',year:'numeric',month :'long',day :'numeric'}
+
   @ViewChild('editForm') editForm : NgForm 
   @HostListener('window:beforeunload',['$event'])
   unLoadNotification($event:any) {
@@ -36,6 +40,8 @@ export class MemberEditComponent implements OnInit {
     this.authService.currentPhotoUrl.subscribe(photo=>
       this.photoUrl=photo
    );
+  this.created = new Date(this.user.created).toLocaleString('ar-EG',this.option).replace('،','') ; 
+  this.age=this.user.age.toLocaleString('ar-EG');
 
   }
   updateUser(){
@@ -55,10 +61,7 @@ export class MemberEditComponent implements OnInit {
   {
     this.user.photoURL=photUrl ; 
 
-    
-
-
-
+  
   }
 
 }
