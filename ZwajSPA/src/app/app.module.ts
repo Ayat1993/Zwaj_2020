@@ -3,7 +3,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule  } from "@angular/forms";
-import { BsDatepickerModule, BsDropdownModule, TabsModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, BsDropdownModule, ButtonsModule, TabsModule } from 'ngx-bootstrap';
 import { appRoutes } from './routes';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -11,6 +11,8 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgxGalleryModule } from 'ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
 import {TimeAgoPipe} from 'time-ago-pipe';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+
 
 
 
@@ -79,7 +81,8 @@ export function tokenGetter() {
     MemberDetailComponent,
     MemberEditComponent,
     PhotoEditorComponent,
-    TimeAgoPipe
+    TimeAgoPipe ,
+    
    ],
   imports: [
     BrowserModule ,
@@ -99,6 +102,8 @@ export function tokenGetter() {
     FileUploadModule,
     ReactiveFormsModule ,
     BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot() ,
+    ButtonsModule.forRoot()
 
 
 

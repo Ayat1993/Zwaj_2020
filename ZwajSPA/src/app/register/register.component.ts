@@ -31,7 +31,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.bsConfig ={
       containerClass :'theme-red',
-      showWeekNumbers:false 
     }
  
     this.createRegisterForm();
@@ -39,7 +38,7 @@ export class RegisterComponent implements OnInit {
   }
   createRegisterForm(){
     this.registerForm = this.fb.group({
-      gender:['رجل'],
+      gender:['1'],
       username:['',Validators.required],
       knownAs : ['',Validators.required],
       dateOfBirth :['',Validators.required],

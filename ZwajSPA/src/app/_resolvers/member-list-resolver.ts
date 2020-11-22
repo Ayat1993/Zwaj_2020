@@ -8,11 +8,13 @@ import { UserService } from "../_services/user.service";
 
 @Injectable()
 export class MemberListResolver implements Resolve<User[]>{
+    pageNumber = 1  ; 
+    pageSize = 6 ; 
     constructor(private userServiec :UserService , private router:Router , private alertify : AlertifyService){    
     }
     resolve(route:ActivatedRouteSnapshot):Observable<User[]>
     {
-        return this.userServiec.getUsers().pipe(
+        return this.userServiec.getUsers(this.pageNumber,this.pageSize).pipe(
             catchError(error =>
                 {
                     this.alertify.error('يوجد مشكلة في عرض البيانات ');

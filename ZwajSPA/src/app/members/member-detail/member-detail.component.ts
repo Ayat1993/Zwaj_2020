@@ -18,6 +18,7 @@ created:string ;
 age:string ; 
 showIntro:true ;
 showLook:true ; 
+showInterests:true  ; 
 
 option={weekday:'long',year:'numeric',month :'long',day :'numeric'}
 galleryOptions: NgxGalleryOptions[];
@@ -48,7 +49,8 @@ galleryImages: NgxGalleryImage[];
   this.created = new Date(this.user.created).toLocaleString('ar-EG',this.option).replace('،','') ; 
   this.age=this.user.age.toLocaleString('ar-EG');
   this.showIntro=true ;
-  this.showLook = true ; 
+  this.showLook = true ;
+  this.showInterests =true ; 
     
      
      

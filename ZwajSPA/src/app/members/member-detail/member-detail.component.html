@@ -38,10 +38,10 @@
                     <h4>أعرفك بنفسي</h4>
                   </div>
                   <div class="card-text mt-3 p-2">
-                    <p #intro>{{user.introduction | slice:0:200}}</p>
+                    <p #intro>{{user.introduction | slice:0:400}}</p>
                   </div>
                   <button [hidden]='!showIntro' class="btn btn-primary" (click)="intro.innerText = user.introduction;showIntro=false;">إقرأ المزيد</button>
-                  <button [hidden]='showIntro' class="btn btn-danger" (click)="intro.innerText = user.introduction.slice(0,200);showIntro=true;">تصغير</button>
+                  <button  [hidden]='showIntro' class="btn btn-danger" (click)="intro.innerText = user.introduction.slice(0,400);showIntro=true;">تصغير</button>
             </div>
             
             <div class="card mt-4">
@@ -66,8 +66,10 @@
                   <h4>هواياتي</h4>
                 </div>
                 <div class="card-text mt-3 p-2">
-                    <p>{{user.interests}}</p>
+                    <p #interests>{{user.interests | slice:0:150}}</p>
                 </div>
+                <button [hidden]='!showInterests' class="btn btn-primary" (click)="interests.innerText = user.interests;showInterests=false;">إقرأ المزيد</button>
+                <button [hidden]='showInterests' class="btn btn-danger" (click)="interests.innerText = user.interests.slice(0,150);showInterests=true;">تصغير</button>
           </div>
       </tab>
 
