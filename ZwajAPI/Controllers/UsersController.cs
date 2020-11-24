@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using ZwajAPI.Data;
 using ZwajAPI.Dtos;
 using ZwajAPI.Helpers;
+using ZwajAPI.Models;
 
 namespace ZwajAPI.Controllers
 {
@@ -65,6 +66,41 @@ namespace ZwajAPI.Controllers
             throw new Exception($"حدثت مشكلة في تعديل بيانات المشترك {id}")  ;
 
         }
+        [HttpPost("{id}/like/{recipientId}")]
+        public async Task<IActionResult> LikeUser(int id , int recipientId )
+        {
+            if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
+                 return Unauthorized() ;
+
+            }
+            var like = await _repo.GetLike(id ,recipientId) ; 
+            if(like!=null)
+            {
+                return BadRequest("لقد قمت بالاعجاب من قبل");
+
+            }
+            if(await _repo.GetUser(recipientId)==null)
+            {
+                return NotFound() ; 
+  
+            }
+            like = new Like{
+                LikerId =id , 
+                LikeeId =recipientId
+                };
+
+             _repo.Add<Like>(like) ; 
+             if(await _repo.SaveAll())
+             {
+                 return Ok() ; 
+                 
+             }
+             return BadRequest("فشل في الاعجاب");
+
+             
+
+        }
+
 
     }
 }

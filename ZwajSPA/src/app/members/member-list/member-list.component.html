@@ -1,5 +1,8 @@
 <div class="text-center">
-  <h4 style="font-family:'Droid-Arabic-Kufi'"> يوجد {{pagination.totalItems}} إقتراح </h4>
+  <h4 *ngIf="pagination.totalItems!=0" style="font-family:'Droid-Arabic-Kufi'"> يوجد {{pagination.totalItems}} <span *ngIf="pagination.totalItems>10">إقتراح</span>
+    <span *ngIf="pagination.totalItems<=10&&pagination.totalItems!=0">إقتراحات</span>
+</h4>
+<h4 *ngIf="pagination.totalItems==0" style="font-family:'Droid-Arabic-Kufi'"><span>لا يوجد إقتراحات مناسبة</span> </h4>
 </div>
 <div class="rtl container mt-3">
   <form dir="rtl" form="ngForm" (ngSubmit)="loadUsers();" class="form-inline" novalidate>

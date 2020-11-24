@@ -21,6 +21,15 @@ namespace ZwajAPI.Models
         public string Country { get; set; }
          public ICollection<Photo>  Photos { get; set; }
 
+         public ICollection<Like> Likers { get ; set ; }
+         //قائمة المعجبين 
+         //مثلا احمد وعمر وياسر معجبين بمنى  هذه قائمة منفصلة 
+
+         public ICollection<Like> Likees { get ; set  ;}
+         //قائمة من المعجب بهم 
+         // مثلا منى تعجب بعدة مشتركين مثل رامي وسامي وسيف هذه قائمة مختلفة 
+
+
         
 
 

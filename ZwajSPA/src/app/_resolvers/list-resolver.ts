@@ -7,14 +7,16 @@ import { AlertifyService } from "../_services/alertify.service";
 import { UserService } from "../_services/user.service";
 
 @Injectable()
-export class MemberListResolver implements Resolve<User[]>{
+export class ListResolver implements Resolve<User[]>{
     pageNumber = 1  ; 
     pageSize = 10 ; 
+    likeParam='Likers'
+
     constructor(private userServiec :UserService , private router:Router , private alertify : AlertifyService){    
     }
     resolve(route:ActivatedRouteSnapshot):Observable<User[]>
     {
-        return this.userServiec.getUsers(this.pageNumber,this.pageSize).pipe(
+        return this.userServiec.getUsers(this.pageNumber,this.pageSize,null,this.likeParam).pipe(
             catchError(error =>
                 {
                     this.alertify.error('يوجد مشكلة في عرض البيانات ');

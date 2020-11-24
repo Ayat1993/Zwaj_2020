@@ -48,10 +48,11 @@
     <div class="invalid-feedback" *ngIf="registerForm.get('dateOfBirth').touched && registerForm.get('dateOfBirth').hasError('required')">أدخل
       تاريخ ميلادك</div>
   </div>
-  <!-- <div class="form-group">
-    <select name="country" [ngClass]="{'is-invalid': registerForm.get('country').errors && registerForm.get('country').touched}" class="form-control"
-       formControlName="country">
-       <option value="" disabled selected>إختر</option>
+  <div class="form-group">
+   
+    <select [ngClass]="{'is-invalid': registerForm.get('country').errors && registerForm.get('country').touched}" class="form-control"
+    formControlName="country"  id="pageSize" name="pageSize">
+    <option value="" disabled selected>إختر</option>
        <option value="أفغانستان">أفغانستان</option>
        <option value="ألبانيا">ألبانيا</option>
        <option value="الجزائر">الجزائر</option>
@@ -246,12 +247,14 @@
        <option value="اليمن">اليمن</option>
        <option value="زامبيا">زامبيا</option>
        <option value="زيمبابوي">زيمبابوي</option>
-       </select>
+        
+      
+    </select>
     <div class="invalid-feedback" *ngIf="registerForm.get('country').touched && registerForm.get('country').hasError('required')">اختر
       إسم بلدك
     </div>
-     
-  </div> -->
+  </div>
+
   <div class="form-group">
     <input [ngClass]="{'is-invalid': registerForm.get('city').errors && registerForm.get('city').touched}" class="form-control"
       placeholder="المدينة" formControlName="city">
@@ -260,13 +263,13 @@
   </div>
 
  
-   <div class="form-group">
+   <!-- <div class="form-group">
     <input [ngClass]="{'is-invalid': registerForm.get('country').errors && registerForm.get('country').touched}" class="form-control"
       placeholder="البلد" formControlName="country">
     <div class="invalid-feedback" *ngIf="registerForm.get('country').touched && registerForm.get('country').hasError('required')">أدخل
       إسم بلدك</div>
   </div> 
-
+ -->
   
   <div class="form-group">
     <input formControlName="password" type="password" [ngClass]="{'is-invalid':registerForm.get('password').errors && registerForm.get('password').touched }" class="form-control" placeholder="كلمة السر">
