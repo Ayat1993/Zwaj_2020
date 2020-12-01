@@ -65,5 +65,20 @@ export class ListsComponent implements OnInit {
     console.log(this.pagination.currentPage) ;
     this.loadUsers();
   }
+  deleteLike(id)
+  {
+    this.userService.deleteLike(this.authService.decodedToken.nameid,id).subscribe(
+      ()=>
+      {this.alertify.success('تم حذف الاعجاب بنجاح')
+       this.loadUsers() ;
+      },
+      error=>      
+      {
+        //this.alertify.error(error)
+      },
+
+    ) 
+
+  }
 
 }

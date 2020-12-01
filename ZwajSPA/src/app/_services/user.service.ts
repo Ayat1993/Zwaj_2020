@@ -5,6 +5,8 @@ import { Observable } from 'rxjs' ;
 import { User } from '../_model/user';
 import { PaginationResult } from '../_model/Pagination';
 import { map } from 'rxjs/operators';
+import { Message } from '../_model/Message';
+import { Response } from '@angular/http';
 
 
 
@@ -87,5 +89,68 @@ deletePhoto(userId:number ,id : number){
 
 
 }
+deleteLike(userId:number ,id : number){
+  return this.http.delete(this.baseUrl+userId+'/delete/'+id);
 
 }
+
+getMessages(id:number,page? ,itemsPerPage?,messageType?)
+{
+  const paginationResult :PaginationResult<Message[]> = new  PaginationResult<Message[]>();
+  let params = new HttpParams();
+  params = params.append('messageType',messageType) ; 
+  if(page != null && itemsPerPage != null)
+  {
+    params = params.append('pageNumber',page) ;
+    params= params.append('pageSize', itemsPerPage)
+
+  }
+  return this.http.get<Message[]>(this.baseUrl+id+'/messages',{observe:'response',params}).pipe(
+    map(response=>{
+      paginationResult.result  = response.body ; 
+      if(response.headers.get('Pagination')!=null)
+      {
+        paginationResult.pagination = JSON.parse(response.headers.get('Pagination')) ;
+
+      }
+      return paginationResult ; 
+    })
+  )
+
+  
+
+}
+
+getConversation(id:number,recipientId:number)
+{
+  return this.http.get<Message[]>(this.baseUrl+id+'/messages/chat/'+recipientId);
+
+}
+sendMessage(id:number ,message :Message)
+{
+  return this.http.post(this.baseUrl+id+'/messages',message) ;
+
+}
+getUnreadCount(userId:number)
+{
+  return this.http.get(this.baseUrl +userId+'/messages/count');
+
+}
+markAsRead(userId :number , messageId :number)
+{
+
+  return this.http.post(this.baseUrl +userId+'/messages/read/'+messageId,{}).subscribe();
+ 
+
+}
+deleteMessage(id:number , userId :number)
+{
+  return this.http.post(this.baseUrl+userId+'/messages/'+id ,{}) ; 
+
+}
+
+
+
+}
+
+

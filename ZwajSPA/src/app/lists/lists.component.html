@@ -13,9 +13,16 @@
       </div>
     </div>
   </div>
-  <div class="row mt-4 ">
+  <div class="row mt-4">
     <div *ngFor="let user of users" class="col-sm-6 col-md-4 col-lg-4 col-xl-2">
-      <app-member-card [user]="user"></app-member-card>
+     <div class="container">
+          <app-member-card [user]="user">
+          </app-member-card> 
+        
+           <button *ngIf="likeParam==='Likees'" type="button" (click)="deleteLike(user.id)"  class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
+        
+
+      </div>
     </div>
   </div>
   <div *ngIf="pagination.totalItems>0" class="d-flex justify-content-center">

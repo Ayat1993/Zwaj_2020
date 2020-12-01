@@ -16,6 +16,7 @@ export class AuthGuard implements CanActivate {
   canActivate(): boolean {
     // فتح المسار او لا 
     if (this.authService.loggedIn()) {
+      this.authService.hubConnection.stop();
       return true ;  
     }
      this.alertify.error('يجب تسجيل الدخول اولا'); 

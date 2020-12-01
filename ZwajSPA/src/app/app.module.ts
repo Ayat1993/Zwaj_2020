@@ -34,6 +34,8 @@ import { MemberCardComponent } from './members/member-card/member-card.component
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
+import { ChangePasswordComponent } from './members/change-password/change-password.component';
+
 
 
 
@@ -61,6 +63,8 @@ import { MemberDetailResolver } from './_resolvers/member-detail-resolver';
 import { MemberListResolver } from './_resolvers/member-list-resolver';
 import { MemberEditResolver } from './_resolvers/member-edit-resolver';
 import { ListResolver } from './_resolvers/list-resolver';
+import { MessageResolver } from './_resolvers/Message-Resolver';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 
 
 
@@ -82,7 +86,9 @@ export function tokenGetter() {
     MemberDetailComponent,
     MemberEditComponent,
     PhotoEditorComponent,
-    TimeAgoPipe ,
+    TimeAgoPipe,
+    ChangePasswordComponent,
+    MemberMessagesComponent
     
    ],
   imports: [
@@ -119,7 +125,8 @@ export function tokenGetter() {
     MemberListResolver , 
     MemberEditResolver,
     PreventUnsavedChangesGuard,
-    ListResolver
+    ListResolver ,
+    MessageResolver
     
   ],
   bootstrap: [AppComponent]

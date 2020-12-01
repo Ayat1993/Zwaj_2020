@@ -20,6 +20,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ZwajAPI.Data;
 using ZwajAPI.Helpers;
+using ZwajAPI.Models;
 
 namespace ZwajAPI
 {
@@ -44,6 +45,8 @@ namespace ZwajAPI
             });
             
              services.AddCors();
+             services.AddSignalR() ; 
+
              services.AddAutoMapper();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
 
@@ -101,6 +104,12 @@ namespace ZwajAPI
             }
            // trialData.TrialUsers() ; 
             app.UseCors(x=> x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+            app.UseSignalR(route=>
+            {
+                route.MapHub<ChatHub>("/chat") ;
+            
+            });
+
             app.UseAuthentication() ; 
             app.UseMvc();
 

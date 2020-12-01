@@ -14,27 +14,29 @@ font-family:ToyorAljanah-Regular;font-size:2.25rem;font-weight:bolder" class="na
       <a class="nav-link" [routerLink]="['/lists']">تواصل</a>
     </li>
     <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link" [routerLink]="['/messages']" >دردشة</a>
+      <a class="nav-link notification" [routerLink]="['/messages']" routerLinkActive="active">دردشة<span *ngIf="count!=='0'" class="badge badge-warning"> {{count}} </span></a>
     </li>
-
   </ul>
   <div *ngIf="loggedIn()" dropdown class="dropdown">
    
     <a  dropdownToggle class="dropdown-toggle text-light nav-link" style="letter-spacing:1px;font-weight:bold;font-family:'JF-Flat-Regular';font-size:1.2rem">
     
       مرحبا بك 
-      {{authServices.decodedToken?.unique_name |titlecase}}
+      {{authService?.decodedToken?.unique_name |titlecase}}
 
     </a>
     <div *dropdownMenu class="dropdown-menu mt-3 mnav-link">
       <a class="dropdown-item" [routerLink]="['/member/edit']" >
         الملف الشخصي<i class="fa fa-user-o" ></i>
       </a>
+      <a class="dropdown-item" [routerLink]="['/member/changePassword']" >
+        تغيير كلمة المرور<i class="fa fa-key" ></i>
+      </a>
 
       <div class="dropdoen-divider"></div>
       <a class="dropdown-item" (click)="loggedOut()">
-        <i class="fa fa-sign-out" ></i>
         تسجيل الخروج
+        <i class="fa fa-sign-out" ></i>
       </a>
       
     </div>

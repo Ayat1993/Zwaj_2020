@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
 import { ListsComponent } from "./lists/lists.component";
+import { ChangePasswordComponent } from "./members/change-password/change-password.component";
 import { MemberDetailComponent } from "./members/member-detail/member-detail.component";
 import { MemberEditComponent } from "./members/member-edit/member-edit.component";
 import { MemberListComponent } from "./members/member-list/member-list.component";
@@ -11,6 +12,7 @@ import { ListResolver } from "./_resolvers/list-resolver";
 import { MemberDetailResolver } from "./_resolvers/member-detail-resolver";
 import { MemberEditResolver } from "./_resolvers/member-edit-resolver";
 import { MemberListResolver } from "./_resolvers/member-list-resolver";
+import { MessageResolver } from "./_resolvers/Message-Resolver";
 
 
 export const appRoutes : Routes =[
@@ -27,11 +29,15 @@ export const appRoutes : Routes =[
             user:MemberEditResolver
         }, canDeactivate:[PreventUnsavedChangesGuard]},
 
+        {path:'memberChange/changePassword',component: ChangePasswordComponent} ,
+            
+            
+
         {path:'members/:id',component:MemberDetailComponent ,resolve:{
             user:MemberDetailResolver
         }},
         {path:'lists',component:ListsComponent,resolve:{users:ListResolver}},
-        {path:'messages',component:MessagesComponent}
+        {path:'messages',component:MessagesComponent, resolve:{messages:MessageResolver}}
 
     ]},
    

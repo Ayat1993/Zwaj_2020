@@ -5,6 +5,7 @@ import { map } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { User } from "../_model/user";
 import { BehaviorSubject } from "rxjs";
+import { HubConnection, HubConnectionBuilder } from "@aspnet/signalr";
 
 @Injectable({
   providedIn: "root",
@@ -12,6 +13,10 @@ import { BehaviorSubject } from "rxjs";
 export class AuthService {
   jwtHelper = new JwtHelperService();
   baseUrl = environment.apiUrl + "auth/";
+  unreadCount = new BehaviorSubject<string>('');
+  latestUnreadCount = this.unreadCount.asObservable();
+  hubConnection:HubConnection = new HubConnectionBuilder().withUrl("http://localhost:5000/chat").build() ;
+
 
   decodedToken: any;
   currentUser: User;

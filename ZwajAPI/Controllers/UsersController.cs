@@ -101,6 +101,37 @@ namespace ZwajAPI.Controllers
 
         }
 
+        [HttpDelete("{id}/delete/{recipientId}")]
+        public async Task<IActionResult> DeleteLike(int id,int recipientId)
+        {
+            if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
+                 return Unauthorized() ;
+
+            }
+            if(await _repo.GetUser(recipientId)==null)
+            {
+                return NotFound() ; 
+  
+            }
+            
+          var like = await _repo.GetLike(id,recipientId);
+          if(like!=null)
+          {
+               _repo.Delete(like) ;     
+
+          }
+
+            
+            if(await _repo.SaveAll()) 
+            {
+                return Ok() ; 
+            } 
+            else {
+                return BadRequest("فشل حذف الاعجاب") ; 
+            }
+
+        }
+
 
     }
 }
