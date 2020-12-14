@@ -15,6 +15,10 @@ namespace ZwajAPI.Data
         public DbSet<Like> Likes { get ; set; }
          public DbSet<Message> Messages { get ; set; }
 
+         public DbSet<Payment> Payments { get ; set ;}
+
+
+
         //EF - Core Fluent API ( )
         // علاقة many to Many __ مهم جدا 
         //تعديل في اي كلاس

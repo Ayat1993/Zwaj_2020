@@ -65,6 +65,7 @@ import { MemberEditResolver } from './_resolvers/member-edit-resolver';
 import { ListResolver } from './_resolvers/list-resolver';
 import { MessageResolver } from './_resolvers/Message-Resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { PaymentComponent } from './payment/payment.component';
 
 
 
@@ -88,7 +89,8 @@ export function tokenGetter() {
     PhotoEditorComponent,
     TimeAgoPipe,
     ChangePasswordComponent,
-    MemberMessagesComponent
+    MemberMessagesComponent,
+    PaymentComponent
     
    ],
   imports: [

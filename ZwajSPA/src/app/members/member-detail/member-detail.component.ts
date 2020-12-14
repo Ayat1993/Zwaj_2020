@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/_model/user';
 import { AlertifyService } from 'src/app/_services/alertify.service';
@@ -13,10 +13,11 @@ import { AuthService } from 'src/app/_services/auth.service';
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.css']
 })
-export class MemberDetailComponent implements OnInit {
+export class MemberDetailComponent implements OnInit , AfterViewChecked{
   @ViewChild('memberTabs') memberTabs: TabsetComponent;
 
 user :User ; 
+paid : boolean = false ; 
 created:string ;
 age:string ; 
 showIntro:true ;
@@ -27,9 +28,18 @@ option={weekday:'long',year:'numeric',month :'long',day :'numeric'}
 galleryOptions: NgxGalleryOptions[];
 galleryImages: NgxGalleryImage[];
   constructor( private authService:AuthService, private userService :UserService, private alertify : AlertifyService,private route :ActivatedRoute) { }
+  ngAfterViewChecked(): void
+   {
+     setTimeout(() =>
+      {
+        this.paid = this.authService.paid ; 
+       
+     }, 0);
+
+  }
 
   ngOnInit(){
-    
+    this.paid = this.authService.paid ; 
 
     //this.loadUser();
     this.route.data.subscribe(data=>{

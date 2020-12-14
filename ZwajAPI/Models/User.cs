@@ -30,7 +30,10 @@ namespace ZwajAPI.Models
          // مثلا منى تعجب بعدة مشتركين مثل رامي وسامي وسيف هذه قائمة مختلفة 
 
           public ICollection<Message> MessagesSent { get ; set  ;}
+          // قائمة الرسائل المرسلة مجموعة
           public ICollection<Message> MessagesReceived { get ; set  ;}
+          // قائمة بالرسائل المستلمة
+          
 
 
 

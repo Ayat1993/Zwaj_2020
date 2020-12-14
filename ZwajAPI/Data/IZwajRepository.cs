@@ -22,7 +22,9 @@ namespace ZwajAPI.Data
 
         Task<IEnumerable<Message>> GetConversation(int userId , int recipientId) ;
         
-        Task<int> GetUnreadMessagesForUser(int userId); 
+        Task<int> GetUnreadMessagesForUser(int userId);
+        Task<Payment> GetPaymentForUser(int userId);
+      
 
 
         

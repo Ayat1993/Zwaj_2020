@@ -6,7 +6,10 @@ import { MemberDetailComponent } from "./members/member-detail/member-detail.com
 import { MemberEditComponent } from "./members/member-edit/member-edit.component";
 import { MemberListComponent } from "./members/member-list/member-list.component";
 import { MessagesComponent } from "./messages/messages.component";
+import { PaymentComponent } from "./payment/payment.component";
 import { AuthGuard } from "./_guards/auth.guard";
+import { ChargeGuard } from "./_guards/charge.guard";
+import { MessagesGuard } from "./_guards/messages.guard";
 import { PreventUnsavedChangesGuard } from "./_guards/prevent-unsaved-changes.guard";
 import { ListResolver } from "./_resolvers/list-resolver";
 import { MemberDetailResolver } from "./_resolvers/member-detail-resolver";
@@ -37,7 +40,9 @@ export const appRoutes : Routes =[
             user:MemberDetailResolver
         }},
         {path:'lists',component:ListsComponent,resolve:{users:ListResolver}},
-        {path:'messages',component:MessagesComponent, resolve:{messages:MessageResolver}}
+        {path:'messages',component:MessagesComponent,canActivate:[MessagesGuard] ,resolve:{messages:MessageResolver}},
+        {path:'charge',component:PaymentComponent,canActivate:[ChargeGuard]}
+
 
     ]},
    
