@@ -22,7 +22,7 @@
     text-decoration: none;
     letter-spacing:0.5px;
     font-weight:bold;
-    font-family:'JF Flat';
+    font-family:'JF-Flat-Regular';
     font-size:1.2rem;
     color:white;
     background-color: #fb24a5;
@@ -61,7 +61,7 @@
 h4{
   letter-spacing:0.5px;
   font-weight:bolder;
-  font-family:'JF Flat';
+  font-family:'JF-Flat-Regular';
   font-size:1.1rem;
   margin-bottom: 10px;
   margin-top: -16px;
@@ -73,7 +73,7 @@ h4{
 
 #card-errors{
   letter-spacing: 0.5px;
-  font-family: 'JF Flat';
+  font-family: 'JF-Flat-Regular';
   font-size: 0.8rem;
   color: rgb(248, 125, 125);
   margin-top: -12px;

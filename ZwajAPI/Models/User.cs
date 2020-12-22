@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace ZwajAPI.Models
 {
-    public class User
+    public class User : IdentityUser<int>
     {
-        public int Id { get; set; }
-        public string UserName  { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
         public string Gender { get; set; }
          public DateTime DateOfBirth { get; set; }
          public string KnownAs { get; set; }
@@ -32,7 +29,10 @@ namespace ZwajAPI.Models
           public ICollection<Message> MessagesSent { get ; set  ;}
           // قائمة الرسائل المرسلة مجموعة
           public ICollection<Message> MessagesReceived { get ; set  ;}
+
           // قائمة بالرسائل المستلمة
+          public ICollection<UserRole> UserRoles { get ; set  ;}
+
           
 
 

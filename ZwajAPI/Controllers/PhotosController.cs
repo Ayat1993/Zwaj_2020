@@ -15,7 +15,6 @@ using ZwajAPI.Models;
 
 namespace ZwajAPI.Controllers
 {
-    [Authorize]
     [Route("api/users/{userId}/photos")]
     [ApiController]
     public class PhotosController : ControllerBase
@@ -59,7 +58,7 @@ namespace ZwajAPI.Controllers
             {
                 return Unauthorized();
             }
-            var userForRepo = await _repo.GetUser(userId);
+            var userForRepo = await _repo.GetUser(userId,true);
             var file = photoForCreateDto.File;
             var uploadResult = new ImageUploadResult();
             if (file != null && file.Length > 0)
@@ -108,7 +107,7 @@ namespace ZwajAPI.Controllers
             {
                 return Unauthorized();
             }
-            var userForRepo = await _repo.GetUser(userId);
+            var userForRepo = await _repo.GetUser(userId,true);
             if (!userForRepo.Photos.Any(p => p.Id == id))
             {
                 return Unauthorized();
@@ -141,7 +140,7 @@ namespace ZwajAPI.Controllers
             {
                 return Unauthorized();
             }
-            var userForRepo = await _repo.GetUser(userId);
+            var userForRepo = await _repo.GetUser(userId,true);
             if (!userForRepo.Photos.Any(p => p.Id == id))
             {
                 return Unauthorized();

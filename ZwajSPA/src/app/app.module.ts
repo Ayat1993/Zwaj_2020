@@ -3,7 +3,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule  } from "@angular/forms";
-import { BsDatepickerModule, BsDropdownModule, ButtonsModule, TabsModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, BsDropdownModule, ButtonsModule, ModalModule, TabsModule } from 'ngx-bootstrap';
 import { appRoutes } from './routes';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -66,6 +66,12 @@ import { ListResolver } from './_resolvers/list-resolver';
 import { MessageResolver } from './_resolvers/Message-Resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 import { PaymentComponent } from './payment/payment.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { HasRoleDirective } from './_directives/has-role.directive';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
+import { AdminService } from './_services/admin.service';
+import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 
 
 
@@ -90,7 +96,13 @@ export function tokenGetter() {
     TimeAgoPipe,
     ChangePasswordComponent,
     MemberMessagesComponent,
-    PaymentComponent
+    PaymentComponent,
+    AdminPanelComponent,
+    HasRoleDirective,
+    UserManagementComponent,
+    PhotoManagementComponent,
+    RolesModalComponent
+    
     
    ],
   imports: [
@@ -112,7 +124,8 @@ export function tokenGetter() {
     ReactiveFormsModule ,
     BsDatepickerModule.forRoot(),
     PaginationModule.forRoot() ,
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot() , 
+    ModalModule.forRoot()
 
 
 
@@ -128,9 +141,11 @@ export function tokenGetter() {
     MemberEditResolver,
     PreventUnsavedChangesGuard,
     ListResolver ,
-    MessageResolver
+    MessageResolver , 
+    AdminService
     
   ],
+  entryComponents :[RolesModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

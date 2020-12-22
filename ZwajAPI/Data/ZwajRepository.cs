@@ -29,9 +29,14 @@ namespace ZwajAPI.Data
 
         }
 
-        async Task<User> IZwajRepository.GetUser(int id)
+        async Task<User> IZwajRepository.GetUser(int id, bool isCurrentUser)
         {
-            var user = await _context.Users.Include(u => u.Photos).FirstOrDefaultAsync(x => x.Id == id);
+            var query =   _context.Users.Include(u => u.Photos).AsQueryable() ;
+            if(isCurrentUser)
+            {
+                query = query.IgnoreQueryFilters() ;
+            }
+            var user = await query.FirstOrDefaultAsync(x => x.Id == id);
             return user;
         }
         private async Task<IEnumerable<int>> GetUserLikes(int id, bool likers)
@@ -117,7 +122,7 @@ namespace ZwajAPI.Data
 
         public async Task<Photo> GetPhoto(int id)
         {
-            var photo = await _context.Photos.FirstOrDefaultAsync(p => p.Id == id);
+            var photo = await _context.Photos.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.Id == id);
             return photo;
         }
 

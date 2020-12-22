@@ -13,6 +13,8 @@ namespace ZwajAPI.Models
         public User User {get ; set ; }
         public int UserId {set ; get ; }
 
+        public bool IsApproved { set ; get ;}
+
 
 
     }

@@ -16,6 +16,9 @@ font-family:ToyorAljanah-Regular;font-size:2.25rem;font-weight:bolder" class="na
     <li class="nav-item" routerLinkActive="active">
       <a class="nav-link notification" [routerLink]="['/messages']" routerLinkActive="active">دردشة<span *ngIf="count!=='0'" class="badge badge-warning"> {{count}} </span></a>
     </li>
+    <li *hasRole="['Admin','Moderator']" class="nav-item" routerLinkActive="active">
+      <a class="nav-link" [routerLink]="['/admin']">لوحة الادارة</a>
+    </li>
   </ul>
   <div *ngIf="loggedIn()" dropdown class="dropdown">
    

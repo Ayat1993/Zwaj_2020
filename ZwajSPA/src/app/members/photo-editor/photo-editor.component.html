@@ -1,17 +1,20 @@
 <div class="row">
-  <div class="col-sm-2" *ngFor="let photo of photos">
-    <img src="{{photo.url}}" class="img-thumbnail p-1">
-    <div class="text-center"> 
-      <button type="button" (click)="setMainPhoto(photo)" [disabled]="photo.isMain"
-      [ngClass]="photo.isMain ? 'btn btn-sm btn-success btn-down' : 'btn btn-sm btn-outline-success btn-down'"
-      ><strong>أساسية</strong></button>
-      <button type="button" [disabled]="photo.isMain"  (click)="delete(photo.id)" class="btn btn-sm btn-outline-danger btn-down"><i class="fa fa-trash-o"></i></button>
-
+    <div class="ml-4 img-wrapper" *ngFor="let photo of photos">
+        <img src="{{photo.url}}" class="img-thumbnail" [ngClass]="!photo.isApproved && 'not-approved'" alt="">
+        <div class="text-center img-text" *ngIf="!photo.isApproved">
+            <span class="text-danger">بإنتظار الموافقة</span>
+        </div>
+        <div class="row text-center mb-4" style="margin-right:2px;margin-top:-3px;">
+            <button type="button" (click)="setMainPhoto(photo)" [disabled]="photo.isMain || !photo.isApproved"
+            [ngClass]="photo.isMain ? 'btn btn-sm btn-success btn-down' : 'btn btn-sm btn-outline-success btn-down' "
+            ><strong>أساسية</strong></button>
+            <button type="button"[disabled]="photo.isMain" (click)="delete(photo.id)" class="btn btn-sm btn-outline-danger btn-down"><i class="fa fa-trash-o"></i></button>
+        </div>
 
     </div>
-
-  </div>
 </div>
+
+
 <div class="row">
     <div class="col-sm-4 mt-5 Font-Kufi">
 
@@ -92,4 +95,3 @@
     </div>
 
 </div>
-

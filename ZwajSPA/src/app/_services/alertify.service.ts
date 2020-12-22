@@ -36,7 +36,7 @@ export class AlertifyService {
     // notifier defaults
     notifier:{
     // auto-dismiss wait time (in seconds)  
-        delay:2,
+        delay:8,
     // default position
         position:'top-left',
     // adds a close button to notifier messages

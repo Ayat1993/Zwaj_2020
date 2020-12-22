@@ -14,7 +14,6 @@ using ZwajAPI.Models;
 namespace ZwajAPI.Controllers
 {
 
-    [Authorize]
     [Route("api/users/{userId}/[controller]")]
     [ApiController]
     [ServiceFilter(typeof(LogUserActivity))]
@@ -76,8 +75,8 @@ namespace ZwajAPI.Controllers
             }
       
             messageForCreation.SenderId = userId;
-            var sender = await _repo.GetUser(messageForCreation.SenderId);
-            var recipient = await _repo.GetUser(messageForCreation.RecipientId);
+            var sender = await _repo.GetUser(messageForCreation.SenderId,true);
+            var recipient = await _repo.GetUser(messageForCreation.RecipientId,false);
             if (recipient == null)
             {
                 return BadRequest("لم يتم الوصول للمرسل اليه");

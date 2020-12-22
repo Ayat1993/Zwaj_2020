@@ -1,4 +1,5 @@
 import { Routes } from "@angular/router";
+import { AdminPanelComponent } from "./admin/admin-panel/admin-panel.component";
 import { HomeComponent } from "./home/home.component";
 import { ListsComponent } from "./lists/lists.component";
 import { ChangePasswordComponent } from "./members/change-password/change-password.component";
@@ -31,18 +32,16 @@ export const appRoutes : Routes =[
         {path:'member/edit',component:MemberEditComponent ,resolve:{
             user:MemberEditResolver
         }, canDeactivate:[PreventUnsavedChangesGuard]},
-
+        
         {path:'memberChange/changePassword',component: ChangePasswordComponent} ,
-            
-            
-
+              
         {path:'members/:id',component:MemberDetailComponent ,resolve:{
             user:MemberDetailResolver
         }},
         {path:'lists',component:ListsComponent,resolve:{users:ListResolver}},
         {path:'messages',component:MessagesComponent,canActivate:[MessagesGuard] ,resolve:{messages:MessageResolver}},
-        {path:'charge',component:PaymentComponent,canActivate:[ChargeGuard]}
-
+        {path:'charge',component:PaymentComponent,canActivate:[ChargeGuard]},
+        {path:'admin',component:AdminPanelComponent,data:{roles:['Admin','Moderator']}}
 
     ]},
    
