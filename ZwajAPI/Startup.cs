@@ -5,6 +5,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -91,7 +93,8 @@ namespace ZwajAPI
                 option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore ;
 
             });
-            
+
+            services.AddSingleton(typeof(IConverter),new SynchronizedConverter(new PdfTools())) ;
              services.AddCors();
              services.AddSignalR() ; 
 

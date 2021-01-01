@@ -1,58 +1,78 @@
-<nav class="rtl navbar navbar-expand-md navbar-dark bg-primary">
-  <a style="margin-top:-10px;margin-left:10px; color:pink;
-font-family:ToyorAljanah-Regular;font-size:2.25rem;font-weight:bolder" class="navbar-brand"
-    [routerLink]="['']" ><i class="fa fa-heart" aria-hidden="true"></i>زواج<i class="fa fa-heart" aria-hidden="true"></i></a>
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+  <a [hidden]="authService.siteLang=='en'" style="margin-top:-4px;color:pink;font-family:ToyorAljanah-Regular;font-size:2.25rem;font-weight:bolder" class="navbar-brand"
+    [routerLink]="['/members']"><i class="fa fa-heart" aria-hidden="true"></i>زواج<i class="fa fa-heart" aria-hidden="true"></i></a>
 
-  <ul *ngIf="loggedIn()" style="letter-spacing:1px;font-weight:bold;font-family:'JF-Flat-Regular';font-size:1.2rem" class="navbar-nav mr-auto">
-    <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link" [routerLink]="['']">الرئيسية </a>
+  <a [hidden]="authService.siteLang=='ar'" style="margin-top:-4px;color:pink;font-family:ToyorAljanah-Regular;font-size:2.25rem;font-weight:bolder" class="navbar-brand"
+  [routerLink]="['/members']"><i class="fa fa-heart" aria-hidden="true"></i>Zwaj<i class="fa fa-heart" aria-hidden="true"></i></a>
+
+  <ul *ngIf="loggedIn()" style="letter-spacing:0.5px;font-weight:bold;font-family:'JF-Flat-Regular';font-size:1.2rem" class="navbar-nav mr-auto">
+    <li class="nav-item">
+      <a lang class="nav-link" [routerLink]="['/members']">الرئيسية </a>
     </li>
     <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link" [routerLink]="['/members']" >بحث</a>
+      <a lang class="nav-link " [routerLink]="['/members']">بحث</a>
     </li>
     <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link" [routerLink]="['/lists']">تواصل</a>
+      <a lang class="nav-link" [routerLink]="['/lists']">تواصل</a>
     </li>
     <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link notification" [routerLink]="['/messages']" routerLinkActive="active">دردشة<span *ngIf="count!=='0'" class="badge badge-warning"> {{count}} </span></a>
-    </li>
+      <a lang class="nav-link notification" [routerLink]="['/messages']" routerLinkActive="active">دردشة<span *ngIf="count!=='0'" class="badge badge-warning"> {{count}} </span></a>
+        </li>
     <li *hasRole="['Admin','Moderator']" class="nav-item" routerLinkActive="active">
-      <a class="nav-link" [routerLink]="['/admin']">لوحة الادارة</a>
+      <a lang class="nav-link" [routerLink]="['/admin']">لوحة الإدارة</a>
     </li>
   </ul>
-  <div *ngIf="loggedIn()" dropdown class="dropdown">
-   
-    <a  dropdownToggle class="dropdown-toggle text-light nav-link" style="letter-spacing:1px;font-weight:bold;font-family:'JF-Flat-Regular';font-size:1.2rem">
-    
-      مرحبا بك 
-      {{authService?.decodedToken?.unique_name |titlecase}}
 
+  <div [hidden]="authService.siteLang=='en'" *ngIf="loggedIn()" class="dropdown ml-auto" dropdown>
+    <a dropdownToggle style="letter-spacing:0.5px;font-weight:bold;font-family:'JF-Flat-Regular';font-size:1.2rem" class="dropdown-toggle text-light nav-link">
+      مرحبا بك
+      {{ authService.currentUser?.knownAs || authService.decodedToken?.unique_name | titlecase }}
     </a>
-    <div *dropdownMenu class="dropdown-menu mt-3 mnav-link">
-      <a class="dropdown-item" [routerLink]="['/member/edit']" >
-        الملف الشخصي<i class="fa fa-user-o" ></i>
-      </a>
-      <a class="dropdown-item" [routerLink]="['/member/changePassword']" >
-        تغيير كلمة المرور<i class="fa fa-key" ></i>
-      </a>
-
-      <div class="dropdoen-divider"></div>
-      <a class="dropdown-item" (click)="loggedOut()">
-        تسجيل الخروج
-        <i class="fa fa-sign-out" ></i>
-      </a>
-      
+    <div *dropdownMenu class="dropdown-menu mt-3">
+      <a class="dropdown-item mnav-link " [routerLink]="['/member/edit']"><i class="fa fa-user"></i>
+        ملفي الشخصي</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item mnav-link" (click)="loggedOut();"><i class="fa fa-sign-out"></i>
+        تسجيل الخروج</a>
     </div>
-   
+  </div>
+
+  <div [hidden]="authService.siteLang=='ar'" *ngIf="loggedIn()" class="dropdown ml-auto" dropdown>
+    <a dropdownToggle style="letter-spacing:0.5px;font-weight:bold;font-family:'JF-Flat-Regular';font-size:1.2rem" class="dropdown-toggle text-light nav-link">
+      Welcome
+      {{ authService.decodedToken?.unique_name || authService.currentUser?.knownAs  }}
+    </a>
+    <div *dropdownMenu class="dropdown-menu mt-3">
+      <a class="dropdown-item mnav-link " [routerLink]="['/member/edit']"><i class="fa fa-user"></i>
+        My Profile</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item mnav-link" (click)="loggedOut();"><i class="fa fa-sign-out"></i>
+        Log Out</a>
+    </div>
   </div>
   <span *ngIf="loggedIn()">
-    <img src="{{photoUrl || 'assets/User.png'}}" >
+    <img src="{{photoUrl || 'assets/User.png'}}" alt="">
   </span>
-  
-  <form *ngIf="!loggedIn()" (ngSubmit)="login()"  #loginForm="ngForm"  class="form-inline my-2 my-lg-0">
-    <input #username="ngModel" name="username" required  class="form-control mr-sm-2" type="text" [(ngModel)]="model.username" placeholder="إسم المشترك">
-    <input  #password="ngModel"  name="password" required class="form-control mr-sm-2" type="password" [(ngModel)]="model.password" placeholder="كلمة السر">
-    <button [disabled]="!loginForm.valid"  style="font-weight:bold;font-family:'JF-Flat-Regular';font-size:1.0rem" class="btn btn-secondary my-2 my-sm-0" type="submit">تفضل
+
+  <form [hidden]="authService.siteLang=='en'" [dir]="authService.dir" *ngIf="!loggedIn()" (ngSubmit)="login()" #loginForm="ngForm" class="ml-5 form-inline my-2 my-lg-0">
+    <input name="username" required class="form-control mr-sm-2" type="text" [(ngModel)]="model.username" placeholder="إسم المشترك">
+    <input name="password" required class="form-control mr-sm-2" type="password" [(ngModel)]="model.password"
+      placeholder="كلمة السر">
+    <button lang [disabled]="!loginForm.valid" style="font-weight:bold;font-family:'JF-Flat-Regular';font-size:1.0rem" class="btn btn-secondary my-2 my-sm-0 "
+      type="submit">تفضل
       بالدخول</button>
   </form>
+
+  <form [hidden]="authService.siteLang=='ar'" [dir]="authService.dir" *ngIf="!loggedIn()" (ngSubmit)="login()" #loginForm="ngForm" class="ml-5 form-inline my-2 my-lg-0">
+    <input name="username" required class="form-control mr-sm-2" type="text" [(ngModel)]="model.username" placeholder="Enter User Name">
+    <input name="password" required class="form-control mr-sm-2" type="password" [(ngModel)]="model.password"
+      placeholder="Enter Password">
+    <button lang [disabled]="!loginForm.valid" style="font-weight:bold;font-family:'JF-Flat-Regular';font-size:1.0rem" class="btn btn-secondary my-2 my-sm-0 ml-auto"
+      type="submit">تفضل
+      بالدخول</button>
+  </form>
+<button [hidden]="authService.siteLang=='en'" (click)="en();" class="btn btn-warning ml-auto" >English</button>
+
+<button [hidden]="authService.siteLang=='ar'" (click)="ar();" class="btn btn-warning ml-auto" >عربي</button>
+
 </nav>

@@ -28,7 +28,7 @@ export class PaymentComponent implements OnInit,OnDestroy,AfterViewInit {
   successPaid:boolean=false;
   loader:boolean=false;
 
-  constructor(private cd: ChangeDetectorRef, private userService:UserService,private authService:AuthService , private location:Location,private route:ActivatedRoute) {}
+  constructor(private cd: ChangeDetectorRef, private userService:UserService,public authService:AuthService , private location:Location,private route:ActivatedRoute) {}
 
   ngAfterViewInit() {
     
@@ -59,12 +59,27 @@ export class PaymentComponent implements OnInit,OnDestroy,AfterViewInit {
   onChange({ error }) {
     if (error) {
       this.loader=false;
-      if(error.message==='Your card number is incomplete.')
-      this.error="رقم بطاقتك غير صحيح"
-      if(error.message==="Your card's expiration date is incomplete.")
-      this.error="تاريخ إنتهاء البطاقة غير صحيح"
-      if(error.message==="Your card's security code is incomplete.")
-      this.error="كود الحماية غير صحيح"
+      if(this.authService.dir==='rtl')
+      {
+        if(error.message==='Your card number is incomplete.')
+        this.error="رقم بطاقتك غير صحيح"
+        if(error.message==="Your card's expiration date is incomplete.")
+        this.error="تاريخ إنتهاء البطاقة غير صحيح"
+        if(error.message==="Your card's security code is incomplete.")
+        this.error="كود الحماية غير صحيح"
+
+      }
+      if(this.authService.dir==='ltr')
+      {
+        if(error.message==='Your card number is incomplete.')
+        this.error="Your card number is incomplete."
+        if(error.message==="Your card's expiration date is incomplete.")
+        this.error="Your card's expiration date is incomplete.";
+        if(error.message==="Your card's security code is incomplete.")
+        this.error="Your card's security code is incomplete.";
+
+      }
+     
      
      
     } else {

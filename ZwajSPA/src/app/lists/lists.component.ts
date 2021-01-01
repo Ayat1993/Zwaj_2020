@@ -17,7 +17,7 @@ export class ListsComponent implements OnInit {
   likeParam:string ;
   search:boolean=false ; 
 
-  constructor(private authService :AuthService  ,   private userService:UserService ,private alertify :AlertifyService , private route : ActivatedRoute) { }
+  constructor(public authService :AuthService  ,   private userService:UserService ,private alertify :AlertifyService , private route : ActivatedRoute) { }
 
 
   ngOnInit()

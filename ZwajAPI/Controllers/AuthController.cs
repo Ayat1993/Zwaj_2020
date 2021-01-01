@@ -102,12 +102,12 @@ namespace ZwajAPI.Controllers
 
              var tokenHandler = new JwtSecurityTokenHandler();
              var token = tokenHandler.CreateToken(tokenDescripror); */
-             var user = await _userManager.FindByNameAsync(userForLoginDto.username) ; 
-             var result = await _signInManager.CheckPasswordSignInAsync(user,userForLoginDto.password,false) ; 
+             var user = await _userManager.FindByNameAsync(userForLoginDto.UserName) ; 
+             var result = await _signInManager.CheckPasswordSignInAsync(user,userForLoginDto.Password,false) ; 
              if(result.Succeeded)
              {
                  var appUser = await _userManager.Users.Include(p=>p.Photos).FirstOrDefaultAsync(
-                     u=> u.NormalizedUserName == userForLoginDto.username.ToUpper() 
+                     u=> u.NormalizedUserName == userForLoginDto.UserName.ToUpper() 
                  ) ;
                  var userToReturn = _mapper.Map<UserForListDto>(appUser);
 

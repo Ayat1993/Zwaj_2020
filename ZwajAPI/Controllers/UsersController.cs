@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -14,7 +17,7 @@ using ZwajAPI.Models;
 
 namespace ZwajAPI.Controllers
 {
-    
+
     [Route("api/[controller]")]
     [ApiController]
     [ServiceFilter(typeof(LogUserActivity))]
@@ -23,8 +26,10 @@ namespace ZwajAPI.Controllers
         private readonly IZwajRepository _repo;
         private readonly IMapper _mapper;
         private readonly IOptions<StripeSettings> _stripeSettings;
-        public UsersController(IZwajRepository repo, IMapper mapper, IOptions<StripeSettings> stripeSettings)
+        private readonly IConverter _converter;
+        public UsersController(IZwajRepository repo, IMapper mapper, IOptions<StripeSettings> stripeSettings, IConverter converter)
         {
+            _converter = converter;
             _stripeSettings = stripeSettings;
             _mapper = mapper;
             _repo = repo;
@@ -34,7 +39,7 @@ namespace ZwajAPI.Controllers
         public async Task<IActionResult> GetUsers([FromQuery] UserParams userParams)
         {
             var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var userFromRepo = await _repo.GetUser(currentUserId,true);
+            var userFromRepo = await _repo.GetUser(currentUserId, true);
             userParams.UserId = currentUserId;
             if (string.IsNullOrEmpty(userParams.Gender))
             {
@@ -49,9 +54,9 @@ namespace ZwajAPI.Controllers
         [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var isCurrentUser = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)==id;
-           
-            var user = await _repo.GetUser(id,isCurrentUser);
+            var isCurrentUser = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value) == id;
+
+            var user = await _repo.GetUser(id, isCurrentUser);
             var userToReturn = _mapper.Map<UserForDetailsDto>(user);
             return Ok(userToReturn);
 
@@ -64,7 +69,7 @@ namespace ZwajAPI.Controllers
                 return Unauthorized();
             }
 
-            var userForRepo = await _repo.GetUser(id,true);
+            var userForRepo = await _repo.GetUser(id, true);
 
             _mapper.Map(userUpdateDto, userForRepo);
             if (await _repo.SaveAll())
@@ -88,7 +93,7 @@ namespace ZwajAPI.Controllers
                 return BadRequest("لقد قمت بالاعجاب من قبل");
 
             }
-            if (await _repo.GetUser(recipientId,false) == null)
+            if (await _repo.GetUser(recipientId, false) == null)
             {
                 return NotFound();
 
@@ -119,7 +124,7 @@ namespace ZwajAPI.Controllers
                 return Unauthorized();
 
             }
-            if (await _repo.GetUser(recipientId,false) == null)
+            if (await _repo.GetUser(recipientId, false) == null)
             {
                 return NotFound();
 
@@ -149,10 +154,10 @@ namespace ZwajAPI.Controllers
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
-            
+
             var customers = new CustomerService();
             var charges = new ChargeService();
-			
+
             // var options = new TokenCreateOptions
             // {
             // Card = new CreditCardOptions
@@ -167,21 +172,24 @@ namespace ZwajAPI.Controllers
             // var service = new TokenService();
             // Token stripeToken = service.Create(options);
 
-            var customer = customers.Create(new CustomerCreateOptions {
-                
-            Source = stripeToken
+            var customer = customers.Create(new CustomerCreateOptions
+            {
+
+                Source = stripeToken
             });
 
-            var charge = charges.Create(new ChargeCreateOptions {
-            Amount = 5000,
-            Description = "إشتراك مدى الحياة",
-            Currency = "usd",
-            Customer = customer.Id
+            var charge = charges.Create(new ChargeCreateOptions
+            {
+                Amount = 5000,
+                Description = "إشتراك مدى الحياة",
+                Currency = "usd",
+                Customer = customer.Id
             });
 
-            var payment = new Payment{
+            var payment = new Payment
+            {
                 PaymentDate = DateTime.Now,
-                Amount = charge.Amount/100,
+                Amount = charge.Amount / 100,
                 UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value),
                 ReceiptUrl = charge.ReceiptUrl,
                 Description = charge.Description,
@@ -189,26 +197,71 @@ namespace ZwajAPI.Controllers
                 IsPaid = charge.Paid
             };
             _repo.Add<Payment>(payment);
-            if(await _repo.SaveAll()){
-           return Ok(new {IsPaid = charge.Paid } );
+            if (await _repo.SaveAll())
+            {
+                return Ok(new { IsPaid = charge.Paid });
             }
-            
+
             return BadRequest("فشل في السداد");
 
         }
         [HttpGet("{userId}/payment")]
         public async Task<IActionResult> GetPaymentForUser(int userId)
         {
-              if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
 
-                var payment = await _repo.GetPaymentForUser(userId);
-                return Ok(payment); 
-            
+            var payment = await _repo.GetPaymentForUser(userId);
+            return Ok(payment);
+
 
         }
 
-        
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpGet("UserReport/{userId}")]
+        public IActionResult CreatePdfForUser(int userId)
+        {
+            var templateGenerator = new TemplateGenerator(_repo, _mapper);
+            var globalSettings = new GlobalSettings
+            {
+                ColorMode = ColorMode.Color,
+                Orientation = Orientation.Portrait,
+                PaperSize = PaperKind.A4,
+                Margins = new MarginSettings { Top = 15, Bottom = 20 },
+                DocumentTitle = "بطاقة مشترك"
+
+            };
+
+            var objectSettings = new ObjectSettings
+            {
+                PagesCount = true,
+                HtmlContent = templateGenerator.GetHTMLStringForUser(userId),
+                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") },
+                HeaderSettings = { FontName = "Impact", FontSize = 12, Spacing = 5, Line = false },
+                FooterSettings = { FontName = "Geneva", FontSize = 15, Spacing = 7, Line = true, Center = "ZwajApp By Ayat AlHamad", Right = "[page]" }
+            };
+
+            var pdf = new HtmlToPdfDocument()
+            {
+                GlobalSettings = globalSettings,
+                Objects = { objectSettings }
+            };
+
+            var file = _converter.Convert(pdf);
+            return File(file, "application/pdf");
+        }
+
+        [Authorize(Policy = "RequirePhotoRole")]
+        [HttpGet("GetAllUsersExceptAdmin")]
+        public async Task<IActionResult> GetAllUsersExceptAdmin()
+        {
+            var users = await _repo.GetAllUsersExceptAdmin();
+            var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+            return Ok(usersToReturn) ;
+
+        }
+
+
 
 
     }

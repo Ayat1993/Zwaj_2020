@@ -92,12 +92,12 @@
   background-color: #fff;
   border: 0;
   border-top: 1px solid #eee;
-  padding: 15px 0;
+  padding: 0px 0;
 }
 .member-tabset > .nav-tabs{
   font-weight:bolder;
   font-family:'JF-Flat-Regular';
-  font-size:1.1rem;
+  font-size:1.3rem;
 }
 
 

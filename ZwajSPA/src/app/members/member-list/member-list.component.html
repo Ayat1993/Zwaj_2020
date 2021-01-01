@@ -1,34 +1,38 @@
 <div class="text-center">
-  <h4 *ngIf="pagination.totalItems!=0" style="font-family:'Droid-Arabic-Kufi'"> يوجد {{pagination.totalItems}} <span *ngIf="pagination.totalItems>10">إقتراح</span>
+  <h4 [hidden]="authService.dir=='ltr'"  *ngIf="pagination.totalItems!=0" style="font-family:'Droid-Arabic-Kufi';font-weight:bolder;"> يوجد {{pagination.totalItems}} <span *ngIf="pagination.totalItems>10">إقتراح</span>
     <span *ngIf="pagination.totalItems<=10&&pagination.totalItems!=0">إقتراحات</span>
 </h4>
-<h4 *ngIf="pagination.totalItems==0" style="font-family:'Droid-Arabic-Kufi'"><span>لا يوجد إقتراحات مناسبة</span> </h4>
+<h4 [hidden]="authService.dir=='rtl'"  *ngIf="pagination.totalItems!=0" style="font-family:'Impact';font-weight: bolder;"> We Found {{pagination.totalItems}} <span *ngIf="pagination.totalItems>10">Suggestion</span>
+  <span *ngIf="pagination.totalItems<=10&&pagination.totalItems!=0">Suggestions</span>
+</h4>
+<h4  *ngIf="pagination.totalItems==0" [ngClass]="{'font-family':authService.dir==='rtl'?'Droid-Arabic-Kufi':'Impact','font-weight':authService.dir==='rtl'?'bolder':'normal' }"><span lang>لا يوجد إقتراحات مناسبة</span> </h4>
+
 </div>
-<div class="rtl container mt-3">
-  <form dir="rtl" form="ngForm" (ngSubmit)="loadUsers();" class="form-inline" novalidate>
+<div [dir]="authService.dir" class="container mt-3">
+  <form [dir]="authService.dir" form="ngForm" (ngSubmit)="loadUsers();" class="form-inline" novalidate>
     <div class="form-group">
-      <label for="minAge">العمر الأدنى </label>
-      <input type="number" [(ngModel)]="userParams.minAge" class="form-control ml-1" style="width: 70px" id="minAge"
+      <label lang for="minAge">العمر الأدنى </label>
+      <input type="number" [(ngModel)]="userParams.minAge" class="form-control mr-1 ml-1" style="width: 70px" id="minAge"
         name="minAge">
     </div>
 
     <div class="form-group px-2">
-      <label for="maxAge">العمر الأقصى </label>
-      <input type="number" [(ngModel)]="userParams.maxAge" class="form-control ml-1" style="width: 70px" id="maxAge"
+      <label lang for="maxAge">العمر الأقصى </label>
+      <input type="number" [(ngModel)]="userParams.maxAge" class="form-control mr-1 ml-1" style="width: 70px" id="maxAge"
         name="maxAge">
     </div>
 
      <div class="form-group px-2">
-      <label for="gender">عرض </label>
-      <select [(ngModel)]="userParams.gender" class="form-control ml-1" style="width: 90px" id="gender" name="gender">
+      <label lang for="gender">عرض </label>
+      <select [(ngModel)]="userParams.gender" class="form-control mr-1 ml-1" style="width: 120px" id="gender" name="gender">
         <option *ngFor="let gender of genderList" [value]="gender.value">
           {{gender.display}}
         </option>
       </select>
     </div>
     <div class="form-group  px-2">
-      <label for="pageSize"> عدد العناصر</label>
-      <select [(ngModel)]="userParams.pageSize" class="form-control ml-1" style="width: 90px" id="pageSize" name="pageSize">
+      <label  lang for="pageSize"> المشتركين</label>
+      <select [(ngModel)]="userParams.pageSize" class="form-control mr-1 ml-1" style="width: 90px" id="pageSize" name="pageSize">
         <option [value]="5">5</option>
         <option [value]="10">10</option>
         <option [value]="20">20</option>
@@ -39,19 +43,19 @@
         
       </select>
     </div>
-    <button type="submit" style="font-family:'JF-Flat-Regular'" class="btn btn-dark btn-small ml-2 mr-2">بحث</button>
-    <button type="button" style="font-family:'JF-Flat-Regular'" (click)="resetFilter();" class="btn btn-dark btn-small ml-2 mr-2">إستعادة</button>
+    <button lang type="submit" style="font-family:'JF-Flat-Regular'" class="btn btn-dark btn-small ml-1 mr-1">بحث</button>
+    <button lang type="button" style="font-family:'JF-Flat-Regular'" (click)="resetFilter();" class="btn btn-dark btn-small ml-2 mr-2">إستعادة</button>
     <div class="col" >
-      <div class="btn-group-vertical float-left">
-        <button type="button" [(ngModel)]="userParams.orderBy" btnRadio="lastActive" (click)="loadUsers();" name="orderBy" class="btn mb-1 ajs-button btn-up" [ngStyle]="{'background':userParams.orderBy==='lastActive'?'red' : ''}" >الأحدث ظهوراً</button>
+      <div [ngClass]="authService.dir=='rtl'?'float-left':'float-right'" class="btn-group-vertical float-left">
+        <button lang type="button" [(ngModel)]="userParams.orderBy" btnRadio="lastActive" (click)="loadUsers();" name="orderBy" class="btn mb-1 ajs-button btn-up" [ngStyle]="{'background':userParams.orderBy==='lastActive'?'red' : ''}" >الأحدث ظهوراً</button>
         
-        <button type="button" [(ngModel)]="userParams.orderBy" (click)="loadUsers();" btnRadio="created" name="orderBy" class="btn ajs-button btn-down" [ngStyle]="{'background':userParams.orderBy==='created'?'red' : ''}">الأحدث إشتراكاً</button>
+        <button lang type="button" [(ngModel)]="userParams.orderBy" (click)="loadUsers();" btnRadio="created" name="orderBy" class="btn ajs-button btn-down" [ngStyle]="{'background':userParams.orderBy==='created'?'red' : ''}">الأحدث إشتراكاً</button>
       </div>
     </div>
 
   </form>
  <br>
-<div class="rtl container mt-3">
+<div class="container mt-3">
 
   <div class="row">
     <div  *ngFor="let user of users" class="col-lg-2 col-md-3 col-sm-6">
@@ -64,23 +68,18 @@
 </div>
 
 
-<div class="d-flex justify-content-center">
+<div *ngIf="authService.siteLang==='ar'" class="d-flex justify-content-center">
   <pagination [(ngModel)]="pagination.currentPage" [boundaryLinks]="true"  [itemsPerPage]="pagination.itemsPerPage" [totalItems]="pagination.totalItems"
   (pageChanged)="pageChanged($event)"  previousText="السابق" nextText="التالي" firstText="الاول" lastText="الاخير" >
 
  
 </pagination>
-<!-- <div class="form-group px-2">
-  <select [(ngModel)]="userParams.pageSize" class="form-control ml-1" style="width: 130px" id="gender" name="gender">
-    <option [value]="5">5</option>
-    <option [value]="10">10</option>
-    <option [value]="20">20</option>
-    <option [value]="25">25</option>
-    <option [value]="50">50</option>
-    <option [value]="100">100</option>
-     
-    
-  </select>
-</div> -->
-
 </div>
+<div *ngIf="authService.siteLang=='en'" class="d-flex justify-content-center">
+  <pagination [(ngModel)]="pagination.currentPage" [boundaryLinks]="true"  [itemsPerPage]="pagination.itemsPerPage" [totalItems]="pagination.totalItems"
+  (pageChanged)="pageChanged($event)"  previousText="Previous" nextText="Next" firstText="First" lastText="Last" >
+
+ 
+</pagination>
+</div>
+ 

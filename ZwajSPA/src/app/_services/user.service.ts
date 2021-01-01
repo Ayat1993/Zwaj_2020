@@ -1,10 +1,10 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs' ; 
 import { User } from '../_model/user';
 import { PaginationResult } from '../_model/Pagination';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Message } from '../_model/Message';
 import { Response } from '@angular/http';
 
@@ -157,6 +157,19 @@ getPaymentForUser(userId:number)
 {
   return this.http.get(this.baseUrl+userId+'/payment') ;
 
+}
+
+getReportForUser(id:number):any  {
+  return this.http.get(this.baseUrl + 'UserReport/'+id,{ headers: 
+    new HttpHeaders({'Content-Type': 'application/pdf'}),responseType:'blob'}).pipe (
+  tap (
+      () => console.log('تم إستلام الملف بنجاح'),
+      error => console.log(error)
+   )
+ );
+}
+getAllUsers(){
+  return this.http.get(this.baseUrl+'GetAllUsersExceptAdmin');
 }
 
 

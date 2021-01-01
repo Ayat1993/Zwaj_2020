@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AllMemberReportComponent } from 'src/app/_reports/all-member-report/all-member-report.component';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-admin-panel',
@@ -6,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin-panel.component.css']
 })
 export class AdminPanelComponent implements OnInit {
-
-  constructor() { }
+ @ViewChild('report') report :AllMemberReportComponent ; 
+  constructor(public authService:AuthService ) { }
 
   ngOnInit() {
+  }
+  printAll()
+  {
+    this.report.printAll();
+
   }
 
 }

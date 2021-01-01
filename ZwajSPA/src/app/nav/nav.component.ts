@@ -93,4 +93,20 @@ export class NavComponent implements OnInit {
 
   }
 
+  ar()
+  {
+    this.authService.language.next('ar'); 
+    console.log('ar') ;
+
+  }
+  en()
+  {
+    this.authService.language.next('en'); 
+    console.log('en') ;
+
+
+
+  }
+  
+
 }
