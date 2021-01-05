@@ -146,7 +146,8 @@ namespace ZwajAPI.Controllers
                 _context.Photos.Remove(photo);
             }
 
-            await _context.SaveChangesAsync();
+           // await _context.SaveChangesAsync();
+           await _context.SaveChangesAsync();
 
             return Ok();
         }
