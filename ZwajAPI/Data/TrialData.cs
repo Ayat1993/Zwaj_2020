@@ -38,7 +38,7 @@ namespace ZwajAPI.Data
                 }
                 foreach (var user in users)
                 {
-                   // user.Photos.ToList().ForEach(p=>p.IsApproved=true);
+                    user.Photos.ToList().ForEach(p=>p.IsApproved=true);
                     _userManager.CreateAsync(user, "password").Wait();
                     _userManager.AddToRoleAsync(user,"Member").Wait(); 
 
@@ -51,10 +51,10 @@ namespace ZwajAPI.Data
 
 
                 }
-                var adminUser = new User{
+               /*  var adminUser = new User{
                     UserName="Admin"
                 };
-                IdentityResult result = _userManager.CreateAsync(adminUser,"password").Result ; 
+                IdentityResult result = _userManager.CreateAsync(adminUser,"password").Result ;  */
                 var admin = _userManager.FindByNameAsync("Admin").Result ; 
                 _userManager.AddToRolesAsync(admin,new []{"Admin","Moderator"}).Wait() ; 
 

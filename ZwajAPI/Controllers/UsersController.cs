@@ -236,7 +236,7 @@ namespace ZwajAPI.Controllers
             {
                 PagesCount = true,
                 HtmlContent = templateGenerator.GetHTMLStringForUser(userId),
-                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") },
+                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot","assets", "assets", "styles.css") },
                 HeaderSettings = { FontName = "Impact", FontSize = 12, Spacing = 5, Line = false },
                 FooterSettings = { FontName = "Geneva", FontSize = 15, Spacing = 7, Line = true, Center = "ZwajApp By Ayat AlHamad", Right = "[page]" }
             };

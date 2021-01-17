@@ -40,8 +40,8 @@
                   <div class="card-text mt-3 p-2">
                     <p #intro>{{user.introduction | slice:0:200}}</p>
                   </div>
-                  <button [hidden]='!showIntro' class="btn btn-primary" (click)="intro.innerText = user.introduction;showIntro=false;">إقرأ المزيد</button>
-                  <button  [hidden]='showIntro' class="btn btn-danger" (click)="intro.innerText = user.introduction.slice(0,200);showIntro=true;">تصغير</button>
+                  <button  [hidden]='!showIntro' class="btn btn-primary" (click)="intro.innerText = user.introduction;showIntro=false;">إقرأ المزيد</button>
+                  <button [hidden]='showIntro' class="btn btn-danger" (click)="intro.innerText = user.introduction.slice(0,200);showIntro=true;">تصغير</button>
             </div>
             
             <div class="card mt-4">

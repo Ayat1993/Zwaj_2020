@@ -20,9 +20,9 @@ user :User ;
 paid : boolean = false ; 
 created:string ;
 age:string ; 
-showIntro:true ;
-showLook:true ; 
-showInterests:true  ; 
+showIntro:boolean=true ;
+showLook: boolean=true ; 
+showInterests:boolean=true  ; 
 
 option={weekday:'long',year:'numeric',month :'long',day :'numeric'}
 galleryOptions: NgxGalleryOptions[];

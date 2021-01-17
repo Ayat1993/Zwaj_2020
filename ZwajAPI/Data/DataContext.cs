@@ -45,6 +45,31 @@ namespace ZwajAPI.Data
 
                 }
             );
+            // builder.Entity<Role>().HasData(new Role{Id = 1,Name = "Admin",NormalizedName = "ADMIN"},
+            //                            new Role{Id = 2,Name = "Moderator",NormalizedName = "MODERATOR"},
+            //                            new Role{Id = 3,Name = "Member",NormalizedName = "MEMBER"},
+            //                            new Role{Id = 4,Name = "VIP",NormalizedName = "VIP"}
+            //                           );
+            // var hasher = new PasswordHasher<User>();
+            //  builder.Entity<User>().HasData(new User
+            // {
+            //     Id = 1,
+            //     UserName = "admin",
+            //     NormalizedUserName = "ADMIN",
+            //     Email = "admin@zwaj.com",
+            //     NormalizedEmail = "admin@zwaj.com",
+            //     EmailConfirmed = true,
+            //     PasswordHash = hasher.HashPassword(null, "password"),
+            //     Created = DateTime.Now,
+            //     LastActive = DateTime.Now,
+            //     DateOfBirth = new DateTime(1981, 1, 25),
+            //     Gender = "رجل"
+            // });
+            //  builder.Entity<UserRole>().HasData(new UserRole
+            // {
+            //     RoleId = 1,
+            //     UserId = 1
+            // });
 
 
 

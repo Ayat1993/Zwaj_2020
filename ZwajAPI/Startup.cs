@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -40,7 +41,75 @@ namespace ZwajAPI
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+          public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddDbContext<DataContext>(x => x.
+            UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+            .ConfigureWarnings(warnings=>warnings.Ignore(CoreEventId.IncludeIgnoredWarning))
+            );
+            IdentityBuilder builder = services.AddIdentityCore<User>(opt=>{
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 4;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+            });
+            builder = new IdentityBuilder(builder.UserType,typeof(Role),builder.Services);
+            builder.AddEntityFrameworkStores<DataContext>();
+            builder.AddRoleValidator<RoleValidator<Role>>();
+            builder.AddRoleManager<RoleManager<Role>>();
+            builder.AddSignInManager<SignInManager<User>>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(Options =>
+            {
+                Options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+
+                };
+            });
+
+           services.AddAuthorization(options=>
+            {
+                options.AddPolicy("RequireAdminRole",policy=>policy.RequireRole("Admin"));
+                options.AddPolicy("RequirePhotoRole",policy=>policy.RequireRole("Admin","Moderator"));
+                options.AddPolicy("VIPOnly",policy=>policy.RequireRole("VIP"));
+
+
+
+            });
+
+            services.AddMvc(options=>{
+                var policy = new AuthorizationPolicyBuilder()
+                            .RequireAuthenticatedUser()
+                            .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            .AddJsonOptions(option =>
+            {
+                option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
+            });
+            //Azure Migration sql server database 
+            services.BuildServiceProvider().GetService<DataContext>().Database.Migrate();
+            services.AddSingleton(typeof(IConverter),new SynchronizedConverter(new PdfTools()));
+            services.AddCors();
+            services.AddSignalR();
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
+            services.AddAutoMapper();
+            services.AddTransient<TrialData>();
+            
+            services.AddScoped<IZwajRepository, ZwajRepository>();
+            services.AddScoped<LogUserActivity>();
+            //Authentication MiddleWare
+            
+        }
+        
+
+        public void ConfigureDevelopmentServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x=> x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))) ; 
             IdentityBuilder builder = services.AddIdentityCore<User>(opt=>
@@ -93,6 +162,8 @@ namespace ZwajAPI
                 option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore ;
 
             });
+            //azure database 
+
 
             services.AddSingleton(typeof(IConverter),new SynchronizedConverter(new PdfTools())) ;
              services.AddCors();
@@ -155,6 +226,20 @@ namespace ZwajAPI
             });
 
             app.UseAuthentication() ; 
+            app.UseDefaultFiles();
+            
+            app.Use(async(context,next)=>
+            {
+                await next() ;
+                if(context.Response.StatusCode==404)
+                {
+                    context.Request.Path = "/index.html" ;
+                    await next() ;
+
+                }
+
+            });
+            app.UseStaticFiles() ; 
             app.UseMvc();
 
         }

@@ -74,6 +74,7 @@ import { AdminService } from './_services/admin.service';
 import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 import { LangDirective } from './_directives/lang.directive';
 import { AllMemberReportComponent } from './_reports/all-member-report/all-member-report.component';
+import { ValueComponent } from './value/value.component';
 
 
 
@@ -105,7 +106,8 @@ export function tokenGetter() {
     PhotoManagementComponent,
     RolesModalComponent,
     LangDirective,
-    AllMemberReportComponent
+    AllMemberReportComponent ,
+    ValueComponent
     
     
    ],
